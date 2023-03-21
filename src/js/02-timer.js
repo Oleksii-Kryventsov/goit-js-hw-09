@@ -17,7 +17,7 @@ const options = {
     defaultDate: new Date(),
     minuteIncrement: 1,
     onClose([selectedDate]) {
-        if (selectedDate < new Date()) {
+        if (selectedDate < Date.now()) {
             Notiflix.Notify.failure('Please choose a date in the future');
             startButton.disabled = true;
         } else {
@@ -33,13 +33,12 @@ flatpickr(inputPicker, options);
 
 function selectDown(selectedDate) {
     const selectDownInteval = setInterval(() => {
-        const currentDate = new Date();
+        const currentDate = Date.now();
         const timeInMs = Math.floor(selectedDate - currentDate);
         const convertTime = convert(timeInMs);
 
         if (timeInMs <= 0) {
             clearInterval(selectDownInteval);
-            resetData();
         } else {
             populateData(convertTime);
         }
@@ -60,16 +59,11 @@ function convert(ms) {
      return { days, hours, minutes, seconds };
 }
 
-function resetData() {
-    dataDays.textContent = '00';
-    dataHours.textContent = '00';
-    dataMinutes.textContent = '00';
-    dataSeconds.textContent = '00';
+
+function populateData({days = '00', hours = '00', minutes = '00', seconds = '00'} = {}) {
+    dataDays.textContent = days.toString().padStart(2, '0');
+    dataHours.textContent = hours.toString().padStart(2, '0');
+    dataMinutes.textContent = minutes.toString().padStart(2, '0');
+    dataSeconds.textContent = seconds.toString().padStart(2, '0');
 }
 
-function populateData(convertTime) {
-    dataDays.textContent = convertTime.days.toString().padStart(2, '0');
-    dataHours.textContent = convertTime.hours.toString().padStart(2, '0');
-    dataMinutes.textContent = convertTime.minutes.toString().padStart(2, '0');
-    dataSeconds.textContent = convertTime.seconds.toString().padStart(2, '0');
-}
