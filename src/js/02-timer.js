@@ -9,7 +9,9 @@ const dataHours = document.querySelector('[data-hours]');
 const dataMinutes = document.querySelector('[data-minutes]');
 const dataSeconds = document.querySelector('[data-seconds]');
 
-flatpickr(inputPicker, {
+
+
+const options = {
     enableTime: true,
     time_24hr: true,
     defaultDate: new Date(),
@@ -25,7 +27,9 @@ flatpickr(inputPicker, {
             });
         }
     },
-});
+};
+
+flatpickr(inputPicker, options);
 
 function selectDown(selectedDate) {
     const selectDownInteval = setInterval(() => {
